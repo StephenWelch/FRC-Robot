@@ -30,7 +30,7 @@ public class Robot extends IterativeRobot {
         mLogger.info("Is Simulated: " + isSimulation());
         
         // Call power on init for each module
-        mRunningModules.update(Clock.getCurrentTime());
+        mRunningModules.powerOnInit(Clock.getCurrentTime());
     }
 
     // This contains code run in ALL robot modes.

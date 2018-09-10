@@ -1,4 +1,4 @@
-package types;
+package types.sensor;
 
 import com.flybotix.hfr.codex.CodexOf;
 

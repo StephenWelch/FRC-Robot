@@ -1,4 +1,4 @@
-package types;
+package types.drive;
 
 import com.flybotix.hfr.codex.CodexOf;
 
