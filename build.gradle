@@ -30,6 +30,9 @@ subprojects {
 	dependencies {
 		testCompile group: 'junit', name: 'junit', version: '4.12'
 		testCompile group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+
+        // Required for 254's utils (PolynomialRegression)
+		compile group: 'gov.nist.math', name: 'jama', version:'1.0.3'
 	}
 }
 

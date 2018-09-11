@@ -2,25 +2,58 @@
 
 This is the incubating software framework for ILITE's 2019 season.
 
-## Simulation
+## Project Structure
 
-WPILib has kindly implemented simulation support for the 2019 season. Since it isn't technically available yet,
-for now we're using a hacky method to run it.
+The project consists of three subprojects: `robot`, `display`, and `common`.
+By separating code into subprojects, we can ensure that `robot` doesn't accidentally
+call JavaFX libraries from the `display` project, and vice-versa. Instead, we can allow
+the `robot` and `display` packages to both use code in the `common` package
 
-### What simulation is
-- A simulated version of WPILib's HAL(Hardware Abstraction Layer).
-- A way to use common WPILib components (Notifier, Timer, etc.) without a robot.
-- A way to easily run your code and confirm your program logic is correct.
+### Robot
+The `robot` subproject contains code running on the actual robot.
+```$xslt
+us.ilite.lib - Contains hardware drivers and utilities that are dependent on WPILib components.
+us.ilite.robot - Parent package for all robot code
+    commands - Contains autonomous commands
+    hardware - Contains hardware classes that allow modules to interface with hardware
+    loops - Contains high-frequency loops running on the robot
+    modules - Contains the modules that control subsystems on the robot
+```
 
-### What simulation is not
-- A way to simulate hardware on the actual robot. CTRE doesn't support it for their motor controllers (for now), and it would be pretty time-consuming and challenging simulate the entire robot **anyway**.
+### Common
+The `common` subproject contains code shared by the `robot` and `display` subprojects, such
+as common data structures + more.
+```$xslt
+config - contains constants, etc.
+lib - contains generic classes used from year-to-year
+    geometry - Contains geometry classes used to represent robot movement
+    util - Utility classes that are not dependent of WPILib
+types - Contains enumerations defining common data structure used throughout other subprojects
+```
 
-### Running simulations
-#### Linux
-1. Run `gradlerio_simulateJar.sh`
-2. **Theoretically** you can connect to the robot by using your local address (127.0.0.1). 
-#### Windows
-Sorry, not yet.
+### Display
+The `display` subproject contains the code for running the driver's display, autonomous selection,
+and logging software.
+```$xslt
+logging - Contains logging code
+display - Contains display code
+```
+
+
+## Setting up IntelliJ
+1. Clone this repository.
+1. Run `gradlew idea` in the repository you just cloned.
+    - On Windows, this is `gradlew.bat idea`
+    - On Linux, this is `./gradlew idea`
+1. Open the repository in IntelliJ.
+1. You're done.
+
+
+## Building and Deploying
+- To build, run `gradlew build`
+- To deploy to the robot, run `gradlew deploy`
+    - Remember to **build** before you **deploy**
+
 
 ## Contributing
 
@@ -67,11 +100,40 @@ Here's how to get your code into the main robot repository:
 8. ???
 9. Profit
 
+
+## Simulation
+
+WPILib has kindly implemented simulation support for the 2019 season. Since it isn't technically available yet,
+for now we're using a hacky method to run it.
+
+### What simulation is
+- A simulated version of WPILib's HAL(Hardware Abstraction Layer).
+- A way to use common WPILib components (Notifier, Timer, etc.) without a robot.
+- A way to easily run your code and confirm your program logic is correct.
+
+### What simulation is not
+- A way to simulate hardware on the actual robot. CTRE doesn't support it for their motor controllers (for now), and it would be pretty time-consuming and challenging simulate the entire robot **anyway**.
+
+### Running simulations
+#### Linux
+1. Run `gradlerio_simulateJar.sh`
+2. **Theoretically** you can connect to the robot by using your local address (127.0.0.1). 
+#### Windows
+Sorry, not yet.
+
+
+
 ## Helpful Tips
+
+### IntelliJ Trouble?
+
+If you're having trouble with IntelliJ, run `gradlew clean cleanIdea idea`. This
+cleans your project and regenerates the IntelliJ project files.
+
+### Riolog
+You can view the RoboRIO's console output from your terminal with `gradlewe riolog`
 
 ### Other remotes
 
 You can add "remotes" to github that refer to other people's robot code repos. This allows you to, for example, take a look at someone else's code to look over it, you would be able to `git checkout wesley/branch-that-breaks-everything` to see it. To add a remote, just do `git remote add <name_of_person> https://github.com/<username>/robot-code`. Once you've done this, you can use `git fetch <name_of_person>` to get updated code from other people's repos!
-
-### Setting up a new computer
 

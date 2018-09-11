@@ -1,4 +1,4 @@
-package us.ilite.common.lib.util;
+package us.ilite.lib.util;
 
 import edu.wpi.first.wpilibj.Timer;
 

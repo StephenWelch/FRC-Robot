@@ -21,12 +21,16 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void robotInit() {
+        mLogger.info("Starting Robot Initialization...");
+
         Logger.setLevel(ELevel.DEBUG);
-        mLogger.info("Robot Init");
+
         mLogger.info("Is Simulated: " + isSimulation());
         
         // Call power on init for each module
         mRunningModules.powerOnInit(mClock.getCurrentTime());
+
+        mLogger.info("Robot initialization finished.");
     }
 
     // This contains code run in ALL robot modes.
