@@ -1,6 +1,5 @@
-package us.ilite.robot;
+package us.ilite.lib.drivers;
 
-import com.flybotix.hfr.util.log.ELevel;
 import com.flybotix.hfr.util.log.ILog;
 import com.flybotix.hfr.util.log.Logger;
 import edu.wpi.first.wpilibj.Timer;
@@ -12,16 +11,16 @@ import edu.wpi.first.wpilibj.Timer;
  */
 public class Clock {
 
-    private static ILog mLogger = Logger.createLog(Clock.class);
+    private ILog mLogger = Logger.createLog(Clock.class);
 
-    private static double mCurrentTime = 0.0;
-    private static boolean hasTimeUpdatedThisCycle = false;
+    private double mCurrentTime = 0.0;
+    private boolean hasTimeUpdatedThisCycle = false;
 
     /**
      *
      * @return A cycle-consistent time, in seconds.
      */
-    public static double getCurrentTime() {
+    public double getCurrentTime() {
         if(hasTimeUpdatedThisCycle == false) {
             mCurrentTime = Timer.getFPGATimestamp();
             hasTimeUpdatedThisCycle = true;
@@ -34,7 +33,7 @@ public class Clock {
     /**
      * Call this to signify the end of a robot cycle and tell the time to update next time it's retrieved.
      */
-    public static void cycleEnded() {
+    public void cycleEnded() {
         hasTimeUpdatedThisCycle = false;
     }
 

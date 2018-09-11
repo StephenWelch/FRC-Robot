@@ -5,14 +5,9 @@ import com.flybotix.hfr.util.log.ILog;
 import com.flybotix.hfr.util.log.Logger;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
+import us.ilite.lib.drivers.Clock;
 import us.ilite.robot.commands.CommandQueue;
-import us.ilite.robot.modules.Module;
 import us.ilite.robot.modules.ModuleList;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 
 public class Robot extends IterativeRobot {
     
@@ -21,6 +16,7 @@ public class Robot extends IterativeRobot {
     private CommandQueue mCommandQueue = new CommandQueue();
     private ModuleList mRunningModules = new ModuleList();
 
+    private Clock mClock = new Clock();
     private Data mData = new Data().simulated();
 
     @Override
@@ -30,7 +26,7 @@ public class Robot extends IterativeRobot {
         mLogger.info("Is Simulated: " + isSimulation());
         
         // Call power on init for each module
-        mRunningModules.powerOnInit(Clock.getCurrentTime());
+        mRunningModules.powerOnInit(mClock.getCurrentTime());
     }
 
     // This contains code run in ALL robot modes.
@@ -39,36 +35,36 @@ public class Robot extends IterativeRobot {
     public void robotPeriodic() {
         mLogger.info(this.toString());
 
-        Clock.cycleEnded();
+        mClock.cycleEnded();
     }
 
     @Override
     public void autonomousInit() {
         mapInputsAndCachedSensors();
 
-        mRunningModules.modeInit(Clock.getCurrentTime());
+        mRunningModules.modeInit(mClock.getCurrentTime());
     }
 
     @Override
     public void autonomousPeriodic() {
         mapInputsAndCachedSensors();
 
-        mCommandQueue.update(Clock.getCurrentTime());
-        mRunningModules.update(Clock.getCurrentTime());
+        mCommandQueue.update(mClock.getCurrentTime());
+        mRunningModules.update(mClock.getCurrentTime());
     }
 
     @Override
     public void teleopInit() {
         mapInputsAndCachedSensors();
 
-        mRunningModules.modeInit(Clock.getCurrentTime());
+        mRunningModules.modeInit(mClock.getCurrentTime());
     }
 
     @Override
     public void teleopPeriodic() {
         mapInputsAndCachedSensors();
 
-        mRunningModules.update(Clock.getCurrentTime());
+        mRunningModules.update(mClock.getCurrentTime());
     }
 
     @Override
@@ -79,7 +75,7 @@ public class Robot extends IterativeRobot {
     @Override
     public void disabledPeriodic() {
         // Temporary for debugging purposes
-        Clock.getCurrentTime();
+        mClock.getCurrentTime();
     }
 
     @Override

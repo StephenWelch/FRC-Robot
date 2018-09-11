@@ -4,8 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import config.SystemSettings;
-import us.ilite.robot.util.TalonFactory;
+import us.ilite.common.config.SystemSettings;
+import us.ilite.lib.drivers.TalonSRXFactory;
 
 public class DriveHardware implements IHardware {
 
@@ -14,10 +14,10 @@ public class DriveHardware implements IHardware {
 
     @Override
     public void init() {
-        leftMaster = TalonFactory.createDefault(0);
-        leftFollower = TalonFactory.createDefault(0);
-        rightMaster = TalonFactory.createDefault(0);
-        rightFollower = TalonFactory.createDefault(0);
+        leftMaster = TalonSRXFactory.createDefaultTalon(0);
+        leftFollower = TalonSRXFactory.createDefaultTalon(0);
+        rightMaster = TalonSRXFactory.createDefaultTalon(0);
+        rightFollower = TalonSRXFactory.createDefaultTalon(0);
 
         leftFollower.follow(leftMaster);
         rightFollower.follow(rightMaster);

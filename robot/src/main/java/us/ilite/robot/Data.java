@@ -1,8 +1,8 @@
 package us.ilite.robot;
 
 import com.flybotix.hfr.codex.Codex;
-import types.drive.EDriveData;
-import types.sensor.EGyro;
+import us.ilite.common.types.drive.EDriveData;
+import us.ilite.common.types.sensor.EGyro;
 
 public class Data {
 

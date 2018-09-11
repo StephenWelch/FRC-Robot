@@ -1,4 +1,4 @@
-package types.drive;
+package us.ilite.common.types.drive;
 
 public enum EDriveMode {
 

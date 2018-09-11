@@ -1,4 +1,4 @@
-package types.sensor;
+package us.ilite.common.types.sensor;
 
 import com.flybotix.hfr.codex.CodexOf;
 

@@ -1,6 +1,4 @@
-package config;
-
-import java.util.concurrent.TimeUnit;
+package us.ilite.common.config;
 
 public class SystemSettings {
 

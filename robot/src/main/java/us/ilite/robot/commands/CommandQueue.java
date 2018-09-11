@@ -2,7 +2,6 @@ package us.ilite.robot.commands;
 
 import com.flybotix.hfr.util.log.ILog;
 import com.flybotix.hfr.util.log.Logger;
-import us.ilite.robot.Clock;
 
 import java.util.Arrays;
 import java.util.LinkedList;
