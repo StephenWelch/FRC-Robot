@@ -5,13 +5,14 @@ import com.flybotix.hfr.util.log.Logger;
 
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Queue;
 
 public class CommandQueue implements ICommand {
 
     private ILog mLogger = Logger.createLog(CommandQueue.class);
 
     private boolean firstRun = false;
-    private LinkedList<ICommand> mCommandQueue = new LinkedList<>();
+    private Queue<ICommand> mCommandQueue = new LinkedList<>();
 
 
     @Override
