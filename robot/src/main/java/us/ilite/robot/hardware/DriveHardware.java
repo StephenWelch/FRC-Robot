@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.StatusFrameEnhanced;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import config.SystemSettings;
-import us.ilite.robot.TalonFactory;
+import us.ilite.robot.util.TalonFactory;
 
 public class DriveHardware implements IHardware {
 
