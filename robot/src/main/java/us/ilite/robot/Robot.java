@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer;
 import us.ilite.lib.drivers.Clock;
 import us.ilite.robot.commands.CommandQueue;
+import us.ilite.robot.modules.ExampleModule;
 import us.ilite.robot.modules.ModuleList;
 
 public class Robot extends IterativeRobot {
@@ -14,6 +15,10 @@ public class Robot extends IterativeRobot {
     private ILog mLogger = Logger.createLog(this.getClass());
 
     private CommandQueue mCommandQueue = new CommandQueue();
+
+    // Module declarations here
+    private ExampleModule mExampleModule = new ExampleModule();
+
     private ModuleList mRunningModules = new ModuleList();
 
     private Clock mClock = new Clock();
@@ -23,7 +28,7 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
         mLogger.info("Starting Robot Initialization...");
 
-        Logger.setLevel(ELevel.DEBUG);
+        Logger.setLevel(ELevel.INFO);
 
         mLogger.info("Is Simulated: " + isSimulation());
         
@@ -37,7 +42,7 @@ public class Robot extends IterativeRobot {
     // It's also important to note that this runs AFTER mode-specific code
     @Override
     public void robotPeriodic() {
-        mLogger.info(this.toString());
+//        mLogger.info(this.toString());
 
         mClock.cycleEnded();
     }
@@ -45,6 +50,8 @@ public class Robot extends IterativeRobot {
     @Override
     public void autonomousInit() {
         mapInputsAndCachedSensors();
+
+        mRunningModules.setModules(mExampleModule);
 
         mRunningModules.modeInit(mClock.getCurrentTime());
     }
@@ -61,6 +68,8 @@ public class Robot extends IterativeRobot {
     public void teleopInit() {
         mapInputsAndCachedSensors();
 
+        mRunningModules.setModules(mExampleModule);
+
         mRunningModules.modeInit(mClock.getCurrentTime());
     }
 
@@ -73,13 +82,12 @@ public class Robot extends IterativeRobot {
 
     @Override
     public void disabledInit() {
-
+        teleopInit();
     }
 
     @Override
     public void disabledPeriodic() {
-        // Temporary for debugging purposes
-        mClock.getCurrentTime();
+        teleopPeriodic();
     }
 
     @Override

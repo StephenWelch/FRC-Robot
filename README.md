@@ -100,29 +100,6 @@ Here's how to get your code into the main robot repository:
 8. ???
 9. Profit
 
-
-## Simulation
-
-WPILib has kindly implemented simulation support for the 2019 season. Since it isn't technically available yet,
-for now we're using a hacky method to run it.
-
-### What simulation is
-- A simulated version of WPILib's HAL(Hardware Abstraction Layer).
-- A way to use common WPILib components (Notifier, Timer, etc.) without a robot.
-- A way to easily run your code and confirm your program logic is correct.
-
-### What simulation is not
-- A way to simulate hardware on the actual robot. CTRE doesn't support it for their motor controllers (for now), and it would be pretty time-consuming and challenging simulate the entire robot **anyway**.
-
-### Running simulations
-#### Linux
-1. Run `gradlerio_simulateJar.sh`
-2. **Theoretically** you can connect to the robot by using your local address (127.0.0.1). 
-#### Windows
-Sorry, not yet.
-
-
-
 ## Helpful Tips
 
 ### IntelliJ Trouble?

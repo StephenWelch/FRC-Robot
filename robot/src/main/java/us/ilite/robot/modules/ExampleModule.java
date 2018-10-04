@@ -6,10 +6,13 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class ExampleModule extends Module {
 
-    private static final double kDelaySeconds = 0.1;
+    private static final double kDelaySeconds = 5.0;
 
-    ILog mLog = Logger.createLog(ExampleModule.class);
-    Timer mTimer = new Timer();
+    private ILog mLog = Logger.createLog(ExampleModule.class);
+
+    private Timer mTimer = new Timer();
+    private boolean mOn = false;
+
 
     @Override
     public void powerOnInit(double pNow) {
@@ -28,8 +31,13 @@ public class ExampleModule extends Module {
     public void update(double pNow) {
 
         if(mTimer.hasPeriodPassed(kDelaySeconds)) {
-            mLog.error("ON");
+            mOn = !mOn;
             mTimer.reset();
+        }
+
+        if(mOn) {
+            mLog.error("ON");
+
         } else {
             mLog.error("OFF");
         }
