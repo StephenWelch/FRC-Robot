@@ -5,6 +5,7 @@ import com.flybotix.hfr.util.log.Logger;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.Timer;
 import us.ilite.common.config.SystemSettings;
+import us.ilite.lib.drivers.Clock;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,14 +21,18 @@ public class LoopManager implements Runnable{
     private final double kLoopPeriodSeconds;
 
     private final Notifier mWpiNotifier;
+    private final Timer mLoopSafetyTimer;
+    private final Clock mClock;
+
     private final LoopList mLoopList = new LoopList();
+
     private final Object mTaskLock = new Object();
     private boolean mIsRunning = false;
 
-    private double mLatestTime = 0d;
-
     public LoopManager(double pLoopPeriodSeconds) {
         mWpiNotifier = new Notifier(this);
+        mLoopSafetyTimer = new Timer();
+        mClock = new Clock();
         this.kLoopPeriodSeconds = pLoopPeriodSeconds;
     }
 
@@ -36,41 +41,73 @@ public class LoopManager implements Runnable{
     }
 
     public synchronized void start() {
+
+        mLoopSafetyTimer.start();
+        mLoopSafetyTimer.reset();
+
         if(!mIsRunning) {
             mLog.info("Starting control loop");
             synchronized(mTaskLock) {
-                mLatestTime = Timer.getFPGATimestamp();
-                mLoopList.update(mLatestTime);
+                mLoopList.modeInit(mClock.getCurrentTime());
                 mIsRunning = true;
             }
             mWpiNotifier.startPeriodic(kLoopPeriodSeconds);
         }
+
+        mClock.cycleEnded();
+        mLoopSafetyTimer.stop();
+        checkTiming("Loop start exceeds specified loop period.");
+
     }
 
     public synchronized void stop() {
+
+        mLoopSafetyTimer.reset();
+
         if(mIsRunning) {
             mLog.info("Stopping control loop");
             mWpiNotifier.stop();
             synchronized(mTaskLock) {
                 mIsRunning = false;
-                mLatestTime = Timer.getFPGATimestamp();
-                mLoopList.shutdown(mLatestTime);
+                mLoopList.shutdown(mClock.getCurrentTime());
             }
         }
+
+        mClock.cycleEnded();
+        mLoopSafetyTimer.stop();
+        checkTiming("Loop stop exceeds specified loop period.");
+
     }
 
     @Override
     public void run() {
+
+        mLoopSafetyTimer.reset();
+
         synchronized(mTaskLock) {
             try {
                 if(mIsRunning) {
-                    mLatestTime = Timer.getFPGATimestamp();
                     //mapSensors(mLatestTime);
-                    mLoopList.loop(mLatestTime);
+                    mLoopList.loop(mClock.getCurrentTime());
                 }
             } catch (Throwable t) {
                 t.printStackTrace();
             }
+        }
+
+        mClock.cycleEnded();
+        mLoopSafetyTimer.stop();
+        checkTiming("Loop update exceeds specified loop period.");
+
+    }
+
+    /**
+     * Prints an error message onscreen if our safety timer has measured a time greater than the specified period.
+     * @param pMessage
+     */
+    private void checkTiming(String pMessage) {
+        if( mLoopSafetyTimer.get() > kLoopPeriodSeconds) {
+            mLog.error(pMessage);
         }
     }
 
