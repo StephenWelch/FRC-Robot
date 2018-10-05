@@ -11,7 +11,7 @@ public class ModuleList extends Module {
 
     ILog mLogger = Logger.createLog(ModuleList.class);
 
-    List<Module> mModules = new ArrayList<>();
+    protected List<Module> mModules = new ArrayList<>();
 
     @Override
     public void powerOnInit(double pNow) {
